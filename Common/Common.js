@@ -22,7 +22,7 @@ const clear = function *() {
 const status = function *() {
   let connection = yield mysql.getConnection();
 
-  let [COUNTUsers, COUNTThreads, COUNTForums, COUNTPosts] = yield [
+  let [countUsers, countThreads, countForums, countPosts] = yield [
     connection.query('SELECT COUNT(id) FROM Users;'),
     connection.query('SELECT COUNT(id) FROM Threads;'),
     connection.query('SELECT COUNT(id) FROM Forums;'),
@@ -32,10 +32,10 @@ const status = function *() {
   this.body = {
     code: 0,
     response: {
-      users: COUNTUsers[0]['COUNT(id)'],
-      forums: COUNTForums[0]['COUNT(id)'],
-      threads: COUNTThreads[0]['COUNT(id)'],
-      posts: COUNTPosts[0]['COUNT(id)']
+      users: countUsers[0]['count(id)'],
+      forums: countForums[0]['count(id)'],
+      threads: countThreads[0]['count(id)'],
+      posts: countPosts[0]['count(id)']
     }
   };
 };

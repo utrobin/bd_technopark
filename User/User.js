@@ -19,8 +19,8 @@ const create = function *() {
     yield connection.query('insert into Users (username, about, isAnonymous, name, email) values (?,?,?,?,?);',
       [newUser.username, newUser.about, newUser.isAnonymous, newUser.name, newUser.email]);
 
-    let FROMPost = yield connection.query('SELECT  about, email, id, isAnonymous, name, username FROM ' +
-      'Users WHERE email = ?', [newUser.email]);
+    let FROMPost = yield connection.query(`SELECT  about, email, id, isAnonymous, name, username FROM
+      Users WHERE email = ?`, [newUser.email]);
 
     this.body = {
       code: 0,
@@ -70,7 +70,7 @@ const follow = function *() {
 
   let connection = yield mysql.getConnection();
 
-  yield connection.query('insert into Followers (followee, follower) values (?,?);', [info.followee, info.follower]);
+  yield connection.query('INSERT into Followers (followee, follower) values (?,?);', [info.followee, info.follower]);
 
   let user = yield connection.query('SELECT * FROM Users WHERE email = ?;', [info.follower]);
   let follower = yield connection.query('SELECT follower FROM Followers WHERE followee = ?;', [info.follower]);
@@ -107,19 +107,19 @@ const listFollowers = function *() {
 
   if (order === 'desc') {
     if (limit === -1) {
-      users = yield connection.query('SELECT follower FROM Followers join Users on Followers.followee = Users.email' +
-        'WHERE followee = ? and id > ? order by follower desc;', [email, since]);
+      users = yield connection.query(`SELECT follower FROM Followers join Users on Followers.followee = Users.email
+        WHERE followee = ? and id > ? order by follower desc;`, [email, since]);
     } else {
-      users = yield connection.query('SELECT follower FROM Followers join Users on Followers.followee = Users.email' +
-        'WHERE followee = ? and id > ? order by follower desc limit ?;', [email, since, +limit]);
+      users = yield connection.query(`SELECT follower FROM Followers join Users on Followers.followee = Users.email
+        WHERE followee = ? and id > ? order by follower desc limit ?;`, [email, since, +limit]);
     }
   } else {
     if (limit === -1) {
-      users = yield connection.query('SELECT follower FROM Followers join Users on Followers.followee = Users.email' +
-        'WHERE followee = ? and id > ? order by follower asc;', [email, since]);
+      users = yield connection.query(`SELECT follower FROM Followers join Users on Followers.followee = Users.email' +
+        WHERE followee = ? and id > ? order by follower asc;`, [email, since]);
     } else {
-      users = yield connection.query('SELECT follower FROM Followers join Users on Followers.followee = Users.email' +
-        'WHERE followee = ? and id > ? order by follower asc limit ?;', [email, since, +limit]);
+      users = yield connection.query(`SELECT follower FROM Followers join Users on Followers.followee = Users.email
+        WHERE followee = ? and id > ? order by follower asc limit ?;`, [email, since, +limit]);
     }
   }
 
@@ -161,19 +161,19 @@ const listFollowing = function *() {
 
   if (order === 'desc') {
     if (limit === -1) {
-      users = yield connection.query('SELECT followee FROM Followers join Users on Followers.follower = Users.email' +
-        ' WHERE follower = ? and id > ? order by followee desc;', [email, since]);
+      users = yield connection.query(`SELECT followee FROM Followers join Users on Followers.follower = Users.email
+        WHERE follower = ? and id > ? order by followee desc;`, [email, since]);
     } else {
-      users = yield connection.query('SELECT followee FROM Followers join Users on Followers.follower = Users.email' +
-        ' WHERE follower = ? and id > ? order by followee desc limit ?;', [email, since, +limit]);
+      users = yield connection.query(`SELECT followee FROM Followers join Users on Followers.follower = Users.email
+        WHERE follower = ? and id > ? order by followee desc limit ?;`, [email, since, +limit]);
     }
   } else {
     if (limit === -1) {
-      users = yield connection.query('SELECT followee FROM Followers join Users on Followers.follower = Users.email' +
-        ' WHERE follower = ? and id > ? order by followee asc;', [email, since]);
+      users = yield connection.query(`SELECT followee FROM Followers join Users on Followers.follower = Users.email
+        WHERE follower = ? and id > ? order by followee asc;`, [email, since]);
     } else {
-      users = yield connection.query('SELECT followee FROM Followers join Users on Followers.follower = Users.email' +
-        ' WHERE follower = ? and id > ? order by followee asc limit ?;', [email, since, +limit]);
+      users = yield connection.query(`SELECT followee FROM Followers join Users on Followers.follower = Users.email
+        WHERE follower = ? and id > ? order by followee asc limit ?;`, [email, since, +limit]);
     }
   }
 
@@ -214,13 +214,13 @@ const listPosts = function *() {
   let posts;
 
   if (limit === -1) {
-    posts = yield connection.query('SELECT date, dislikes, forum, id, isApproved, isDeleted, isEdited, isHighlighted,' +
-      ' isSpam, likes, message, parent, likes - dislikes as points, thread, user FROM Posts WHERE user = ? and date >= ?' +
-      ' order by date ' + order + ';', [email, data]);
+    posts = yield connection.query(`SELECT date, dislikes, forum, id, isApproved, isDeleted, isEdited, isHighlighted,
+      isSpam, likes, message, parent, likes - dislikes as points, thread, user FROM Posts WHERE user = ? and date >= ?
+      order by date ${order};`, [email, data]);
   } else {
-    posts = yield connection.query('SELECT date, dislikes, forum, id, isApproved, isDeleted, isEdited, isHighlighted,' +
-      ' isSpam, likes, message, parent, likes - dislikes as points, thread, user FROM Posts WHERE user = ? and date >= ?' +
-      ' order by date ' + order + ' limit ?;', [email, data, +limit]);
+    posts = yield connection.query(`SELECT date, dislikes, forum, id, isApproved, isDeleted, isEdited, isHighlighted,
+      isSpam, likes, message, parent, likes - dislikes as points, thread, user FROM Posts WHERE user = ? and date >= ?
+      order by date  ${order} limit ?;`, [email, data, +limit]);
   }
   
   let newPosts = posts.map((el) => {
