@@ -6,12 +6,12 @@ const mysql = require('../config');
 const clear = function *() {
   let connection = yield mysql.getConnection();
 
-  yield connection.query('delete from Posts;');
-  yield connection.query('delete from Subscriptions;');
-  yield connection.query('delete from Followers;');
-  yield connection.query('delete from Forums;');
-  yield connection.query('delete from Users;');
-  yield connection.query('delete from Threads;');
+  yield connection.query('DELETE FROM Posts;');
+  yield connection.query('DELETE FROM Subscriptions;');
+  yield connection.query('DELETE FROM Followers;');
+  yield connection.query('DELETE FROM Forums;');
+  yield connection.query('DELETE FROM Users;');
+  yield connection.query('DELETE FROM Threads;');
 
   this.body = {
     code: 0,
@@ -22,20 +22,20 @@ const clear = function *() {
 const status = function *() {
   let connection = yield mysql.getConnection();
 
-  let [countUsers, countThreads, countForums, countPosts] = yield [
-    connection.query('select count(id) from Users;'),
-    connection.query('select count(id) from Threads;'),
-    connection.query('select count(id) from Forums;'),
-    connection.query('select count(id) from Posts;')
+  let [COUNTUsers, COUNTThreads, COUNTForums, COUNTPosts] = yield [
+    connection.query('SELECT COUNT(id) FROM Users;'),
+    connection.query('SELECT COUNT(id) FROM Threads;'),
+    connection.query('SELECT COUNT(id) FROM Forums;'),
+    connection.query('SELECT COUNT(id) FROM Posts;')
   ];
 
   this.body = {
     code: 0,
     response: {
-      users: countUsers[0]['count(id)'],
-      forums: countForums[0]['count(id)'],
-      threads: countThreads[0]['count(id)'],
-      posts: countPosts[0]['count(id)']
+      users: COUNTUsers[0]['COUNT(id)'],
+      forums: COUNTForums[0]['COUNT(id)'],
+      threads: COUNTThreads[0]['COUNT(id)'],
+      posts: COUNTPosts[0]['COUNT(id)']
     }
   };
 };
