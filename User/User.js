@@ -16,7 +16,7 @@ const create = function *() {
       response: {}
     };
   } else {
-    yield connection.query('insert into Users (username, about, isAnonymous, name, email) values (?,?,?,?,?);',
+    yield connection.query('insert INTO Users (username, about, isAnonymous, name, email) values (?,?,?,?,?);',
       [newUser.username, newUser.about, newUser.isAnonymous, newUser.name, newUser.email]);
 
     let FROMPost = yield connection.query(`SELECT  about, email, id, isAnonymous, name, username FROM
@@ -70,7 +70,7 @@ const follow = function *() {
 
   let connection = yield mysql.getConnection();
 
-  yield connection.query('INSERT into Followers (followee, follower) values (?,?);', [info.followee, info.follower]);
+  yield connection.query('INSERT INTO Followers (followee, follower) values (?,?);', [info.followee, info.follower]);
 
   let user = yield connection.query('SELECT * FROM Users WHERE email = ?;', [info.follower]);
   let follower = yield connection.query('SELECT follower FROM Followers WHERE followee = ?;', [info.follower]);

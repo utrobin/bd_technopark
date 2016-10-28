@@ -23,6 +23,15 @@ router.get('/db/api/user/listFollowing', User.listFollowing);
 router.get('/db/api/user/listPosts/', User.listPosts);
 router.get('/db/api/user/details/', User.details);
 
+//Forum
+const Forum = require('./Forum/Forum');
+
+router.post('/db/api/forum/create', Forum.create);
+router.get('/db/api/forum/details', Forum.details);
+router.get('/db/api/forum/listPosts', Forum.listPosts);
+router.get('/db/api/forum/listThreads', Forum.listThreads);
+router.get('/db/api/forum/listUsers', Forum.listUsers);
+
 app.use(logger());
 app.use(koaBody);
 app.use(router.routes());
