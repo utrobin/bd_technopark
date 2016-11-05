@@ -32,6 +32,17 @@ router.get('/db/api/forum/listPosts', Forum.listPosts);
 router.get('/db/api/forum/listThreads', Forum.listThreads);
 router.get('/db/api/forum/listUsers', Forum.listUsers);
 
+//Post
+const Post = require('./Post/Post');
+
+router.post('/db/api/post/create', Post.create)
+router.post('/db/api/post/remove/', Post.remove);
+router.post('/db/api/post/restore/', Post.restore);
+router.post('/db/api/post/update/', Post.update);
+router.post('/db/api/post/vote/', Post.vote);
+router.get('/db/api/post/details/', Post.details);
+router.get('/db/api/post/list/', Post.list);
+
 app.use(logger());
 app.use(koaBody);
 app.use(router.routes());
