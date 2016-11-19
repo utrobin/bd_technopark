@@ -43,6 +43,22 @@ router.post('/db/api/post/vote/', Post.vote);
 router.get('/db/api/post/details/', Post.details);
 router.get('/db/api/post/list/', Post.list);
 
+//Thread
+const Thread = require('./Thread/Thread');
+
+router.post('/db/api/thread/close', Thread.close);
+router.post('/db/api/thread/create', Thread.create);
+router.post('/db/api/thread/open', Thread.open);
+router.post('/db/api/thread/restore', Thread.restore);
+router.post('/db/api/thread/subscribe', Thread.subscribe);
+router.post('/db/api/thread/unsubscribe', Thread.unsubscribe);
+router.post('/db/api/thread/update', Thread.update);
+router.post('/db/api/thread/vote', Thread.vote);
+router.post('/db/api/thread/remove', Thread.remove);
+router.get('/db/api/thread/details', Thread.details);
+router.get('/db/api/thread/list', Thread.list);
+router.get('/db/api/thread/listPosts', Thread.listPosts);
+
 app.use(logger());
 app.use(koaBody);
 app.use(router.routes());
